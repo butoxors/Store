@@ -5,6 +5,6 @@ namespace Domain.Abstract
 {
     public interface ICategoryRepository
     {
-        IEnumerable<Category> Categories { get; set; }
+        IEnumerable<Category> Categories { get; }
     }
 }
