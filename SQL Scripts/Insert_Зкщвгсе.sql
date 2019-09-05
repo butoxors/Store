@@ -1,0 +1,1 @@
+﻿insert into Product(Id, Name, Description, Category) values(1, 'Hammer', 'Just hammer', 1);
