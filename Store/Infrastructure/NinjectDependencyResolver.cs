@@ -2,6 +2,7 @@
 using Domain.Entities;
 using Moq;
 using Ninject;
+using Store.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -30,7 +31,7 @@ namespace Store.Infrastructure
 
         private void AddBindings()
         {
-            Mock<ICategoryRepository> mock1 = new Mock<ICategoryRepository>();
+            /*Mock<ICategoryRepository> mock1 = new Mock<ICategoryRepository>();
             List<Category> cat = new List<Category>()
             {
                 new Category{Description = "Instruments"},
@@ -53,7 +54,10 @@ namespace Store.Infrastructure
             });
 
             kernel.Bind<ICategoryRepository>().ToConstant(mock1.Object);
-            kernel.Bind<IProductRepository>().ToConstant(mock2.Object);
+            kernel.Bind<IProductRepository>().ToConstant(mock2.Object);*/
+
+            kernel.Bind<ICategoryRepository>().To<EFCategoryRepository>();
+            kernel.Bind<IProductRepository>().To<EFProductRepository>();
         }
     }
 }

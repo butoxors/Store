@@ -8,14 +8,16 @@ namespace Store.Controllers
     {
         private IProductRepository Repository;
 
+        public int pageSize = 5;
+
         public ProductsController(IProductRepository rep)
         {
             Repository = rep;
         }
 
-        public ViewResult List()
+        public ViewResult List(int page = 1)
         {
-            return View(Repository.Products);
+            return View(Repository.Products.OrderBy(x => x.Id).Skip((page - 1) * pageSize).Take(pageSize));
         }
     }
 }
