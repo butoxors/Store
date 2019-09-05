@@ -1,11 +1,11 @@
 ﻿@model Domain.Entities.Product
 
-<div class="well">
+<div class="col-xl-3 border-bottom">
     <h3>
         <strong>@Model.Name</strong>
         <span class="pull-right label label-primary">@Model.Price.ToString("# грн")</span>
     </h3>
     <span class="lead">@Model.Description</span>
     <hr />
-    <span class="lead">@Model.Category.Description</span>
+    @Html.ActionLink(Model.Category.Description, "List", "Product", new { category = Model.Category.Description }, null)
 </div>
