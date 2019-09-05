@@ -5,7 +5,7 @@ namespace Store.Models
 {
     public class ProductListViewModel
     {
-        IEnumerable<Product> Products { get; set; }
+        public IEnumerable<Product> Products { get; set; }
         public PagingInfo PagingInfo { get; set; }
     }
 }

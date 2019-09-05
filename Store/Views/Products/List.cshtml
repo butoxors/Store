@@ -1,17 +1,21 @@
-﻿@using Domain.Entities;
-@model IEnumerable<Product>
+﻿@using Store.Models;
+@using Store.HtmlHelpers;
+@model ProductListViewModel
 
 @{
     ViewBag.Title = "Products";
 }
 
-@foreach(var p in @Model)
+@foreach(var p in @Model.Products)
 {
     <div>
         <h3>@p.Name</h3>
         <p>@p.Category.Description</p>
         <h4>@p.Description</h4>
-        <p>@p.Price</p>
+        <p>@p.Price.ToString("# грн")</p>
     </div>
 }
 
+<div>
+    @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x }))
+</div>
