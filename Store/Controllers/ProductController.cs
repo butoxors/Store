@@ -30,7 +30,9 @@ namespace Store.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
-                    TotalItems = ProductRepository.Products.Count()
+                    TotalItems = category == null ?
+                    ProductRepository.Products.Count() :
+                    ProductRepository.Products.Where(x => x.Category.Description == category).Count()
                 },
                 CurrentCategory = category
             };

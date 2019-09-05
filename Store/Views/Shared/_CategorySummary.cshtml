@@ -1,0 +1,3 @@
+﻿@model Domain.Entities.Category
+
+@Html.ActionLink(Model.Description, "List", "Product", new { category = Model.Description }, new { @class = "list-group-item list-group-item-action" })

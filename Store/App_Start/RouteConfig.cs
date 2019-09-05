@@ -15,6 +15,16 @@ namespace Store
 
             routes.MapRoute(
                 null,
+                url: "Catalog",
+                defaults: new
+                {
+                    controller = "Catalog",
+                    action = "List"
+                }
+            );
+
+            routes.MapRoute(
+                null,
                 "",
                 new
                 {

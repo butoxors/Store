@@ -1,0 +1,12 @@
+﻿@using Store.Models
+@model CategoryListViewModel
+
+@{
+    ViewBag.Title = "Catalog";
+}
+<div class="list-group">
+    @foreach (var c in Model.Categories)
+    {
+        @Html.Partial("_CategorySummary", c);
+    }
+</div>
