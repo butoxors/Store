@@ -6,22 +6,23 @@ using System.Web.Mvc;
 
 namespace Store.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductController : Controller
     {
         private IProductRepository ProductRepository;
 
         public int pageSize = 5;
 
-        public ProductsController(IProductRepository rep)
+        public ProductController(IProductRepository rep)
         {
             ProductRepository = rep;
         }
 
-        public ViewResult List(int page = 1)
+        public ViewResult List(string category, int page = 1)
         {
             ProductListViewModel model = new ProductListViewModel
             {
                 Products = ProductRepository.Products
+                    .Where(x => category == null || x.Category.Description.ToLower() == category.ToLower())
                     .OrderBy(x => x.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize),
@@ -30,7 +31,8 @@ namespace Store.Controllers
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
                     TotalItems = ProductRepository.Products.Count()
-                }
+                },
+                CurrentCategory = category
             };
 
             return View(model);
