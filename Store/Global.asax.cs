@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using Store.Infrastructure.Binders;
 using System.Web.Mvc;
 using System.Web.Routing;
 
@@ -10,6 +11,7 @@ namespace Store
         {
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
         }
         /*protected void Session_Start(object sender, EventArgs e)
         {

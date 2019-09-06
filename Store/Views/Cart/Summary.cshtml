@@ -1,0 +1,15 @@
+﻿@model Domain.Entities.Cart
+
+<div class="navbar-right">
+    @Html.ActionLink("Cart", "Index", "Cart",
+    new { returnUrl = Request.Url.PathAndQuery },
+    new { @class = "btn btn-primary navbar-btn" })
+
+    <span class="glyphicon glyphicon-shopping-cart"></span>
+</div>
+
+<div class="navbar-text navbar-right p-lg-2">
+    <b>Your cart:</b>
+    @Model.Lines.Sum(x => x.Quantity) goods,
+    @Model.ComputeTotalValue().ToString("# uah")
+</div>

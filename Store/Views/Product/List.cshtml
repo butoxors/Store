@@ -11,4 +11,5 @@
         @Html.Partial("_ProductSummary", p);
     }
 </div>
+<br />
     @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, category = Model.CurrentCategory }))
