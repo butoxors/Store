@@ -1,0 +1,35 @@
+﻿@model Domain.Entities.ShippingDetails
+
+@{
+    ViewBag.Title = "Order goods";
+}
+
+<h2>Checkout now</h2>
+<p>Please enter your contact details and we will immediately send the goods!</p>
+
+
+@using (Html.BeginForm())
+{
+    <h3>Delivery data</h3>
+    <div class="form-group">
+        <label>Your name:</label>
+        @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+    </div>
+
+    <h3>Delivery address</h3>
+
+    foreach (var property in ViewData.ModelMetadata.Properties)
+    {
+        if (property.PropertyName != "Name")
+        {
+            <div class="form-group">
+                <label>@(property.DisplayName ?? property.PropertyName)</label>
+                @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+            </div>
+        }
+    }
+
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Process order" />
+    </div>
+}
