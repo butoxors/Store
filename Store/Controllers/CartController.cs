@@ -1,21 +1,18 @@
-﻿using Domain.Abstract;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Store.Concrete;
 using Store.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Store.Controllers
 {
     public class CartController : Controller
     {
-        IProductRepository repository;
+        private UnitOfWork unitOfWork;
 
-        public CartController(IProductRepository repo)
+        public CartController()
         {
-            repository = repo;
+            unitOfWork = new UnitOfWork();
         }
 
         public ViewResult Index(Cart cart, string returnUrl)
@@ -29,8 +26,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult AddToCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = repository.Products
-                .FirstOrDefault(x => x.Id == Id);
+            Product product = unitOfWork.ProductRepository.GetByID(Id);
 
             if (product != null)
             {
@@ -41,7 +37,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult RemoveItem(Cart cart, int Id, string returnUrl)
         {
-            Product product = repository.Products.FirstOrDefault(x => x.Id == Id);
+            Product product = unitOfWork.ProductRepository.GetByID(Id);
 
             if (product != null)
             {
@@ -52,8 +48,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = repository.Products
-                .FirstOrDefault(x => x.Id == Id);
+            Product product = unitOfWork.ProductRepository.GetByID(Id);
 
             if (product != null)
             {

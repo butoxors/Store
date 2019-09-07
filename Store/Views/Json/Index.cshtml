@@ -1,23 +1,8 @@
-﻿
+﻿@model string
+
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Json";
 }
 <div class="text-center p-5">
-    @using (Html.BeginForm("GetJsonData", "Json"))
-    {
-        <div class="form-group float-left p-5">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" class="btn btn-primary" value="Get json data" />
-            </div>
-        </div>
-    }
-    @using (Html.BeginForm())
-    {
-        <div class="form-group float-right p-5">
-            <div class="col-md-offset-2 col-md-10">
-                <textarea name="area" cols="40" rows="5"></textarea>
-                <input type="submit" class="btn btn-primary" value="Add category form json" />
-            </div>
-        </div>
-    }
+    @Html.ActionLink("Get json data", "GetJsonData", "Json", null, new { @class = "btn btn-primary" })
 </div>

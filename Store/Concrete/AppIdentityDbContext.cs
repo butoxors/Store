@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Domain.Entities;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Store.Concrete;
 using Store.Models;
 using System.Data.Entity;
 
-namespace Store.Concrete
+namespace Domain.Concrete
 {
     public class AppIdentityDbContext : IdentityDbContext<AppUser>
     {
-        public AppIdentityDbContext() : base("AppIdentityDbContext") { }
-
-        static AppIdentityDbContext()
+        public AppIdentityDbContext() : base("DefaultConnection")
         {
             Database.SetInitializer<AppIdentityDbContext>(new AppIdentityDbInit());
         }
@@ -17,6 +17,8 @@ namespace Store.Concrete
         {
             return new AppIdentityDbContext();
         }
-    }
 
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+    }
 }

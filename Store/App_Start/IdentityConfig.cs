@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using Domain.Concrete;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using Store.Concrete;
 using Store.Infrastructure.Manager;
-using Store.Models;
-using System;
 
 namespace Store.App_Start
 {

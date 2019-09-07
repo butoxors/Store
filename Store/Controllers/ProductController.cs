@@ -1,5 +1,6 @@
 ﻿using Domain.Abstract;
 using Domain.Entities;
+using Store.Concrete;
 using Store.Models;
 using System.Linq;
 using System.Web.Mvc;
@@ -8,21 +9,19 @@ namespace Store.Controllers
 {
     public class ProductController : Controller
     {
-        private IProductRepository ProductRepository;
+        private UnitOfWork unitOfWork;
+        public int pageSize = 4;
 
-        public int pageSize = 5;
-
-        public ProductController(IProductRepository rep)
+        public ProductController()
         {
-            ProductRepository = rep;
+            unitOfWork = new UnitOfWork();
         }
 
         public ViewResult List(string category, int page = 1)
         {
             ProductListViewModel model = new ProductListViewModel
             {
-                Products = ProductRepository.Products
-                    .Where(x => category == null || x.Category.Description.ToLower() == category.ToLower())
+                Products = unitOfWork.ProductRepository.Get(x => category == null || x.Category.Description.ToLower() == category.ToLower())
                     .OrderBy(x => x.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize),
@@ -31,8 +30,8 @@ namespace Store.Controllers
                     CurrentPage = page,
                     ItemsPerPage = pageSize,
                     TotalItems = category == null ?
-                    ProductRepository.Products.Count() :
-                    ProductRepository.Products.Where(x => x.Category.Description == category).Count()
+                    unitOfWork.ProductRepository.Get().Count() :
+                    unitOfWork.ProductRepository.Get(x => x.Category.Description == category).Count()
                 },
                 CurrentCategory = category
             };

@@ -52,15 +52,10 @@ namespace Store.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl = null)
+        public ActionResult Login(string returnUrl)
         {
 
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                return View("Error", new string[] { "Access denied. You is authorized now!" });
-            }
-
-            ViewBag.returnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
@@ -69,25 +64,30 @@ namespace Store.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
-                if (result == SignInStatus.Success)
-                {
-                    return Redirect(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View(model);
-                }
+                return View(model);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+            switch (result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
+                case SignInStatus.Failure:
+                default:
+                    ModelState.AddModelError("", "Unsuccessful login attempt.");
+                    return View(model);
+            }
         }
-
+        private ActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            return RedirectToAction("List", "Product");
+        }
         [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(CreateModel model)
@@ -141,6 +141,9 @@ namespace Store.Controllers
                 {
                     await UserManager.AddToRoleAsync(user.Id, RoleToJoin.Name);
                     await SignInManager.SignInAsync(user, false, false);
+
+                    if (string.IsNullOrEmpty(returnUrl))
+                        return RedirectToAction("List", "Product");
 
                     return Redirect(returnUrl);
                 }

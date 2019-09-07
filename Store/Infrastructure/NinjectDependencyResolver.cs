@@ -57,9 +57,6 @@ namespace Store.Infrastructure
 
             kernel.Bind<ICategoryRepository>().ToConstant(mock1.Object);
             kernel.Bind<IProductRepository>().ToConstant(mock2.Object);*/
-
-            kernel.Bind<ICategoryRepository>().To<EFCategoryRepository>();
-            kernel.Bind<IProductRepository>().To<EFProductRepository>();
         }
     }
 }

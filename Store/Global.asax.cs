@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Newtonsoft.Json;
 using Store.Infrastructure.Binders;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -12,6 +13,11 @@ namespace Store
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             ModelBinders.Binders.Add(typeof(Cart), new CartModelBinder());
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            };
         }
         /*protected void Session_Start(object sender, EventArgs e)
         {

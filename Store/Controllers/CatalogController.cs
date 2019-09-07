@@ -1,4 +1,5 @@
 ﻿using Domain.Abstract;
+using Store.Concrete;
 using Store.Models;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,19 @@ namespace Store.Controllers
 {
     public class CatalogController : Controller
     {
-        private ICategoryRepository Repository;
+        private UnitOfWork unitOfWork;
 
-        public CatalogController(ICategoryRepository rep)
+        public CatalogController()
         {
-            Repository = rep;
+            unitOfWork = new UnitOfWork();
         }
 
         public ViewResult List()
         {
             CategoryListViewModel model = new CategoryListViewModel
             {
-                Categories = Repository.Categories
-                    .OrderBy(x => x.Id)
-                    .Distinct()
+                Categories = unitOfWork.CategoryRepository.Get(null, x => x.OrderBy(o => o.Id)).Distinct()
             };
-
 
             return View(model);
         }

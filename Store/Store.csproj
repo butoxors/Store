@@ -111,6 +111,7 @@
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.3\lib\netstandard2.0\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -218,11 +219,10 @@
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Concrete\AppIdentityDbContext.cs" />
     <Compile Include="Concrete\AppIdentityDbInit.cs" />
-    <Compile Include="Concrete\EFCategoryRepository.cs" />
-    <Compile Include="Concrete\EFDbContext.cs" />
-    <Compile Include="Concrete\EFDbContextInitializer.cs" />
-    <Compile Include="Concrete\EFProductRepository.cs" />
+    <Compile Include="Concrete\Repository.cs" />
+    <Compile Include="Concrete\UnitOfWork.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CartController.cs" />
@@ -235,7 +235,6 @@
     </Compile>
     <Compile Include="HtmlHelpers\IdentityHelpers.cs" />
     <Compile Include="HtmlHelpers\PagingHelper.cs" />
-    <Compile Include="Concrete\AppIdentityDbContext.cs" />
     <Compile Include="Infrastructure\Manager\AppRoleManager.cs" />
     <Compile Include="Infrastructure\Manager\AppSignInManager.cs" />
     <Compile Include="Infrastructure\Manager\AppUserManager.cs" />
@@ -283,8 +282,8 @@
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Json\Index.cshtml" />
-    <Content Include="Views\Json\GetJsonData.cshtml" />
     <Content Include="Views\Account\Logout.cshtml" />
+    <Content Include="Views\Json\GetJsonData.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
