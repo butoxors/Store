@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Store.Infrastructure;
+using Store.Concrete;
+using Store.Infrastructure.Manager;
 using Store.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -1,36 +1,36 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Store.Infrastructure;
+﻿using Microsoft.Owin.Security;
 using Store.Models;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using static Store.App_Start.IdentityConfig;
+using Store.Infrastructure.Manager;
+using Microsoft.AspNet.Identity.Owin;
+using System.Net;
+using Microsoft.AspNet.Identity;
+using System.Collections.Generic;
 
 namespace Store.Controllers
 {
+    [Authorize]
     public class AccountController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+        private AppSignInManager _signInManager;
+        private AppUserManager _userManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public AccountController(AppUserManager userManager, AppSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
-        public ApplicationSignInManager SignInManager
+        public AppSignInManager SignInManager
         {
             get
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                return _signInManager ?? HttpContext.GetOwinContext().Get<AppSignInManager>();
             }
             private set
             {
@@ -38,11 +38,11 @@ namespace Store.Controllers
             }
         }
 
-        public ApplicationUserManager UserManager
+        public AppUserManager UserManager
         {
             get
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<AppUserManager>();
             }
             private set
             {
@@ -50,50 +50,61 @@ namespace Store.Controllers
             }
         }
 
-
-
-        [Authorize]
-        public ActionResult Logout()
-        {
-            AuthManager.SignOut();
-            return RedirectToAction("List", "Product");
-        }
-
+        [HttpGet]
         [AllowAnonymous]
-        public ActionResult SingIn(CreateModel model)
+        public ActionResult Login(string returnUrl = null)
         {
-            return View();
-        }
 
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
-        {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return View("Error", new string[] { "Access denied." });
+                return View("Error", new string[] { "Access denied. You is authorized now!" });
             }
 
             ViewBag.returnUrl = returnUrl;
             return View();
         }
 
+        [HttpPost]
         [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, true, false);
+                if (result == SignInStatus.Success)
+                {
+                    return Redirect(returnUrl);
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View(model);
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
+
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Create(CreateModel model)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = new AppUser { UserName = model.Name, Email = model.Email};
-                IdentityResult result =
+                AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
+                var result =
                     await UserManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    return RedirectToAction("List", "Product");
                 }
                 else
                 {
-                    AddErrorsFromResult(result);
+                    AddErrors(result);
                 }
 
                 return View("Error", result.Errors);
@@ -101,13 +112,14 @@ namespace Store.Controllers
             return RedirectToAction("List", "Product");
         }
 
-        private void AddErrorsFromResult(IdentityResult result)
+        private void AddErrors(IdentityResult result)
         {
-            foreach (string error in result.Errors)
+            foreach (var error in result.Errors)
             {
-                ModelState.AddModelError("", error);
+                ModelState.AddModelError(string.Empty, error);
             }
         }
+
 
         [AllowAnonymous]
         public ActionResult Register()
@@ -118,21 +130,21 @@ namespace Store.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                string RoleToJoin = "user";
+                var RoleToJoin = new AppRole("user");
                 var user = new AppUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    UserManager.AddToRole(user.Id, RoleToJoin);
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    await UserManager.AddToRoleAsync(user.Id, RoleToJoin.Name);
+                    await SignInManager.SignInAsync(user, false, false);
 
-                    return RedirectToAction("List", "Product");
+                    return Redirect(returnUrl);
                 }
-                AddErrorsFromResult(result);
+                AddErrors(result);
             }
 
             // Появление этого сообщения означает наличие ошибки; повторное отображение формы
@@ -140,33 +152,14 @@ namespace Store.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel details, string returnUrl)
+        public ActionResult Logout()
         {
-            AppUser user = await UserManager.FindAsync(details.Name, details.Password);
-
-            if (user == null)
-            {
-                ModelState.AddModelError("", "Incorrect name or password.");
-            }
-            else
-            {
-                ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user,
-                    DefaultAuthenticationTypes.ApplicationCookie);
-
-                AuthManager.SignOut();
-                AuthManager.SignIn(new AuthenticationProperties
-                {
-                    IsPersistent = false
-                }, ident);
-                return Redirect(returnUrl);
-            }
-
-            return View(details);
+            AuthenticationManager.SignOut();
+            return RedirectToAction("Logout", "Account");
         }
 
-        private IAuthenticationManager AuthManager
+        private IAuthenticationManager AuthenticationManager
         {
             get
             {

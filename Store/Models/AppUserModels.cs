@@ -8,18 +8,9 @@ namespace Store.Models
 {
     public class AppUser : IdentityUser
     {
-        [DefaultValue(false)]
-        public bool isBlock { get; set; }
+        /*new public string Email { get; set; }
 
-        [DefaultValue(false)]
-        public bool isDelete { get; set; }
-
-        //public ICollection<Test> Tests { get; set; }
-
-        //public ApplicationUser()
-        //{
-        //   Tests = new List<Test>();
-        //}
+        public string Password { get; set; }*/
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<AppUser> manager)
         {

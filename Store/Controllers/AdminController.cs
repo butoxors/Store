@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Store.Infrastructure;
+using Store.Concrete;
+using Store.Infrastructure.Manager;
 using Store.Models;
 using System.Threading.Tasks;
 using System.Web;
@@ -16,7 +17,6 @@ namespace Store.Controllers
             return View(UserManager.Users);
         }
 
-        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();

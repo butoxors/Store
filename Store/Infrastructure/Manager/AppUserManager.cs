@@ -2,9 +2,10 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Store.Concrete;
 using Store.Models;
 
-namespace Store.Infrastructure
+namespace Store.Infrastructure.Manager
 {
     public class AppUserManager : UserManager<AppUser>
     {

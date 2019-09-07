@@ -2,10 +2,11 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using Store.Concrete;
 using Store.Models;
 using System;
 
-namespace Store.Infrastructure
+namespace Store.Infrastructure.Manager
 {
     public class AppRoleManager : RoleManager<AppRole>, IDisposable
     {

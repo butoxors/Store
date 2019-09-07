@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
-using Store.Infrastructure;
+using Store.Infrastructure.Manager;
 
 namespace Users.Infrastructure
 {

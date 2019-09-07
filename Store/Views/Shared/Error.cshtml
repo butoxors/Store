@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<string>
 @{
-    ViewBag.Title = "Ошибка";
+    ViewBag.Title = "Error";
 }
 <div class="alert alert-danger">
     @switch (Model.Count())
@@ -22,4 +22,4 @@
             break;
     }
 </div>
-@Html.ActionLink("OK", "Index", null, new { @class = "btn btn-default" })
+@Html.ActionLink("OK", "List", "Product", new { Page = 1 }, new { @class = "btn btn-default" })

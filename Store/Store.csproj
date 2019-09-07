@@ -217,6 +217,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.cs" />
+    <Compile Include="Concrete\AppIdentityDbInit.cs" />
     <Compile Include="Concrete\EFCategoryRepository.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFDbContextInitializer.cs" />
@@ -233,9 +235,10 @@
     </Compile>
     <Compile Include="HtmlHelpers\IdentityHelpers.cs" />
     <Compile Include="HtmlHelpers\PagingHelper.cs" />
-    <Compile Include="Infrastructure\AppIdentityDbContext.cs" />
-    <Compile Include="Infrastructure\AppRoleManager.cs" />
-    <Compile Include="Infrastructure\AppUserManager.cs" />
+    <Compile Include="Concrete\AppIdentityDbContext.cs" />
+    <Compile Include="Infrastructure\Manager\AppRoleManager.cs" />
+    <Compile Include="Infrastructure\Manager\AppSignInManager.cs" />
+    <Compile Include="Infrastructure\Manager\AppUserManager.cs" />
     <Compile Include="Infrastructure\Binders\CartModelBinder.cs" />
     <Compile Include="Infrastructure\NinjectDependencyResolver.cs" />
     <Compile Include="Models\AppRole.cs" />
@@ -275,13 +278,13 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Admin\Edit.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\SingIn.cshtml" />
     <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Json\Index.cshtml" />
     <Content Include="Views\Json\GetJsonData.cshtml" />
+    <Content Include="Views\Account\Logout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
