@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Store.Controllers
 {
+    [Authorize]
     public class AdminController : Controller
     {
         public ActionResult Index()
@@ -15,6 +16,7 @@ namespace Store.Controllers
             return View(UserManager.Users);
         }
 
+        [AllowAnonymous]
         public ActionResult Create()
         {
             return View();

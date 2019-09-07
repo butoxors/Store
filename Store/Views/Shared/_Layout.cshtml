@@ -22,10 +22,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    @Html.ActionLink("Catalog", "List", "Catalog", null, new { @class = "navbar-brand" })
+                    @Html.ActionLink("Catalog", "List", "Catalog", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    Login
+                    @Html.ActionLink("LogIn", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Account", "Register", "Account", null, new { @class = "nav-link" })
+                </li>
+                <li class="nav-item">
+                    @Html.ActionLink("Json", "Index", "Json", null, new { @class = "nav-link" })
                 </li>
             </ul>
 

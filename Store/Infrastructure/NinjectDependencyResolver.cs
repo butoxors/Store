@@ -31,6 +31,8 @@ namespace Store.Infrastructure
 
         private void AddBindings()
         {
+            //Local storage
+
             /*Mock<ICategoryRepository> mock1 = new Mock<ICategoryRepository>();
             List<Category> cat = new List<Category>()
             {

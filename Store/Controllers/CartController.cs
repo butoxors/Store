@@ -67,6 +67,7 @@ namespace Store.Controllers
             return PartialView(cart);
         }
 
+        [Authorize]
         public ViewResult Checkout(Cart cart, ShippingDetails shippingDetails)
         {
             return View(new ShippingDetails());
