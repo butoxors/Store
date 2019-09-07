@@ -7,3 +7,5 @@ Store application on ASP.Net + Identity
 +User authorization
 
 +Cart with goods
+
++Json
