@@ -147,15 +147,12 @@ namespace Store.Controllers
                 AddErrors(result);
             }
 
-            // Появление этого сообщения означает наличие ошибки; повторное отображение формы
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Logout()
         {
-            AuthenticationManager.SignOut();
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return RedirectToAction("Logout", "Account");
         }
 
