@@ -28,7 +28,9 @@
                     @if (User.Identity.IsAuthenticated)
                     {
                         @Html.ActionLink("LogOut", "Logout", "Account", null, new { @class = "nav-link" })
-                    } else {@Html.ActionLink("LogIn", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "nav-link" })}
+                    }
+                    else
+                    {@Html.ActionLink("LogIn", "Login", "Account", new { returnUrl = Request.Url.PathAndQuery }, new { @class = "nav-link" })}
                 </li>
                 <li class="nav-item">
                     @if (User.Identity.IsAuthenticated)
@@ -46,6 +48,11 @@
             </ul>
 
             @Html.Action("Summary", "Cart")
+            @using (Html.BeginForm("Search", "Product", null, FormMethod.Post, new { @class = "form-inline my-2 my-lg-0" }))
+            {
+                <input name="query" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            }
         </div>
     </nav>
     <div class="container">

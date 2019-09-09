@@ -6,7 +6,11 @@
     ViewBag.Title = "Products";
 }
 <div class="row">
-    @foreach (var p in @Model.Products)
+    @if (Model.Products.Count() == 0)
+    {
+        
+    }
+    @foreach (var p in Model.Products)
     {
         @Html.Partial("_ProductSummary", p);
     }

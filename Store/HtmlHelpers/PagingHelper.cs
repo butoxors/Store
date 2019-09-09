@@ -11,39 +11,41 @@ namespace Store.HtmlHelpers
                                               PagingInfo pagingInfo,
                                               Func<int, string> pageUrl)
         {
-            StringBuilder result = new StringBuilder();
+            StringBuilder result = new StringBuilder(string.Empty);
 
-            TagBuilder pagination = new TagBuilder("ul");
-
-            pagination.AddCssClass("pagination");
-
-            string link = "";
-
-            if (pagingInfo.CurrentPage != 1)
-                link = CreateLink("Previous", pageUrl, pagingInfo.CurrentPage - 1);
-
-            pagination.InnerHtml += link;
-
-            for (int i = 1; i <= pagingInfo.TotalPages; i++)
+            if (pagingInfo.TotalItems > 0)
             {
-                link = "";
-                if (i == pagingInfo.CurrentPage)
-                    link = CreateLink(i.ToString(), pageUrl, i, true);
-                else
-                    link = CreateLink(i.ToString(), pageUrl, i);
+                TagBuilder pagination = new TagBuilder("ul");
+
+                pagination.AddCssClass("pagination");
+
+                string link = "";
+
+                if (pagingInfo.CurrentPage != 1)
+                    link = CreateLink("Previous", pageUrl, pagingInfo.CurrentPage - 1);
 
                 pagination.InnerHtml += link;
+
+                for (int i = 1; i <= pagingInfo.TotalPages; i++)
+                {
+                    link = "";
+                    if (i == pagingInfo.CurrentPage)
+                        link = CreateLink(i.ToString(), pageUrl, i, true);
+                    else
+                        link = CreateLink(i.ToString(), pageUrl, i);
+
+                    pagination.InnerHtml += link;
+                }
+
+                link = "";
+
+                if (pagingInfo.CurrentPage != pagingInfo.TotalPages)
+                    link = CreateLink("Next", pageUrl, pagingInfo.CurrentPage + 1);
+
+                pagination.InnerHtml += link;
+
+                result.Append(pagination.ToString());
             }
-
-            link = "";
-
-            if (pagingInfo.CurrentPage != pagingInfo.TotalPages)
-                link = CreateLink("Next", pageUrl, pagingInfo.CurrentPage + 1);
-
-            pagination.InnerHtml += link;
-
-            result.Append(pagination.ToString());
-
             return MvcHtmlString.Create(result.ToString());
         }
 
