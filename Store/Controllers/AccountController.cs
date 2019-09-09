@@ -5,9 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Store.Infrastructure.Manager;
 using Microsoft.AspNet.Identity.Owin;
-using System.Net;
 using Microsoft.AspNet.Identity;
-using System.Collections.Generic;
 
 namespace Store.Controllers
 {
@@ -153,6 +151,7 @@ namespace Store.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);

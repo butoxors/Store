@@ -22,7 +22,6 @@ namespace Store.Controllers
             ProductListViewModel model = new ProductListViewModel
             {
                 Products = unitOfWork.ProductRepository.Get(x => category == null || x.Category.Description.ToLower() == category.ToLower())
-                    .OrderBy(x => x.Id)
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize),
                 PagingInfo = new PagingInfo

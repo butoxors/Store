@@ -10,7 +10,7 @@ namespace Domain.Concrete
     {
         public AppIdentityDbContext() : base("DefaultConnection")
         {
-            Database.SetInitializer<AppIdentityDbContext>(new AppIdentityDbInit());
+            Database.SetInitializer(new AppIdentityDbInit());
         }
 
         public static AppIdentityDbContext Create()

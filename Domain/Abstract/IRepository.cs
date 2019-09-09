@@ -11,7 +11,7 @@ namespace Domain.Abstract
             Func<IQueryable<TEntity>, System.Linq.IOrderedQueryable<TEntity>> orderBy = null,
             string includeProperties = "");
 
-        TEntity GetByID(object id);
+        TEntity Get(object id);
 
         void Insert(TEntity entity);
 

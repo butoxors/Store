@@ -18,7 +18,13 @@ namespace Store.Concrete
             this.context = context;
             this.dbSet = context.Set<TEntity>();
         }
-
+        /// <summary>
+        /// Get object
+        /// </summary>
+        /// <param name="filter">User filter</param>
+        /// <param name="orderBy">Oser order</param>
+        /// <param name="includeProperties">Some properties</param>
+        /// <returns></returns>
         public virtual IEnumerable<TEntity> Get(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
@@ -47,22 +53,37 @@ namespace Store.Concrete
             }
         }
 
-        public virtual TEntity GetByID(object id)
+        /// <summary>
+        /// Get object from Id
+        /// </summary>
+        /// <param name="id">Id</param>
+        /// <returns></returns>
+        public virtual TEntity Get(object id)
         {
             return dbSet.Find(id);
         }
 
+        /// <summary>
+        /// Add object to DB
+        /// </summary>
+        /// <param name="entity">object</param>
         public virtual void Insert(TEntity entity)
         {
             dbSet.Add(entity);
         }
-
+        /// <summary>
+        /// Delete from DB
+        /// </summary>
+        /// <param name="id">Id</param>
         public virtual void Delete(object id)
         {
             TEntity entityToDelete = dbSet.Find(id);
             Delete(entityToDelete);
         }
-
+        /// <summary>
+        /// Delete from DB
+        /// </summary>
+        /// <param name="entityToDelete">Object</param>
         public virtual void Delete(TEntity entityToDelete)
         {
             if (context.Entry(entityToDelete).State == EntityState.Detached)
@@ -71,7 +92,10 @@ namespace Store.Concrete
             }
             dbSet.Remove(entityToDelete);
         }
-
+        /// <summary>
+        /// Update object
+        /// </summary>
+        /// <param name="entityToUpdate">Object</param>
         public virtual void Update(TEntity entityToUpdate)
         {
             dbSet.Attach(entityToUpdate);

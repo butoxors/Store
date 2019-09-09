@@ -26,7 +26,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult AddToCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = unitOfWork.ProductRepository.GetByID(Id);
+            Product product = unitOfWork.ProductRepository.Get(Id);
 
             if (product != null)
             {
@@ -37,7 +37,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult RemoveItem(Cart cart, int Id, string returnUrl)
         {
-            Product product = unitOfWork.ProductRepository.GetByID(Id);
+            Product product = unitOfWork.ProductRepository.Get(Id);
 
             if (product != null)
             {
@@ -48,7 +48,7 @@ namespace Store.Controllers
 
         public RedirectToRouteResult RemoveFromCart(Cart cart, int Id, string returnUrl)
         {
-            Product product = unitOfWork.ProductRepository.GetByID(Id);
+            Product product = unitOfWork.ProductRepository.Get(Id);
 
             if (product != null)
             {

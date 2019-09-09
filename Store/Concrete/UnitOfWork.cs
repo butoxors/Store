@@ -22,7 +22,7 @@ namespace Store.Concrete
                 {
                     this.productRepository = new Repository<Product>(context);
                 }
-                return productRepository;
+                return productRepository ?? new Repository<Product>(context);
             }
         }
 
@@ -34,7 +34,7 @@ namespace Store.Concrete
                 {
                     this.categoryRepository = new Repository<Category>(context);
                 }
-                return categoryRepository;
+                return categoryRepository ?? new Repository<Category>(context);
             }
         }
 
