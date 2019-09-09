@@ -1,1 +1,0 @@
-﻿INSERT INTO Category(Description) VALUES ('Food'), ('Сlothes'), ('Pharmacy'), ('Water'), ('Instruments'), ('Plants');
