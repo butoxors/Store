@@ -15,6 +15,7 @@ namespace Store.Concrete
         {
             var userManager = new AppUserManager(new UserStore<AppUser>(context));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var unitOfWork = new UnitOfWork();
 
             var role1 = new IdentityRole { Name = "admin" };
             var role2 = new IdentityRole { Name = "user" };
@@ -26,12 +27,21 @@ namespace Store.Concrete
 
             string password = "admin123";
 
+            var user = new AppUser { Email = "user@mail.com", UserName = "user@mail.com" };
+
             var res = userManager.Create(admin, password);
 
             if (res.Succeeded)
                 userManager.AddToRole(admin.Id, role1.Name);
 
-            List<Category> Categories = new List<Category>()
+            password = "user123";
+
+            res = userManager.Create(user, password);
+
+            if (res.Succeeded)
+                userManager.AddToRole(user.Id, role2.Name);
+
+            var Categories = new List<Category>()
             {
                 new Category{Description = "Instruments", Products = new List<Product>
                     {
@@ -61,9 +71,9 @@ namespace Store.Concrete
             };
 
             foreach (var c in Categories)
-                context.Categories.Add(c);
+                unitOfWork.CategoryRepository.Insert(c);
 
-            context.SaveChanges();
+            unitOfWork.Save();
 
             base.Seed(context);
         }

@@ -1,9 +1,6 @@
 ﻿using Domain.Concrete;
 using Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Store.Concrete
 {
@@ -22,7 +19,7 @@ namespace Store.Concrete
                 {
                     this.productRepository = new Repository<Product>(context);
                 }
-                return productRepository ?? new Repository<Product>(context);
+                return productRepository;
             }
         }
 
@@ -34,7 +31,7 @@ namespace Store.Concrete
                 {
                     this.categoryRepository = new Repository<Category>(context);
                 }
-                return categoryRepository ?? new Repository<Category>(context);
+                return categoryRepository;
             }
         }
 
