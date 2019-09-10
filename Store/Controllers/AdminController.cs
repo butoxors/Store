@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity.Owin;
 using Store.Concrete;
 using Store.Infrastructure.Manager;
 using Store.Models;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -14,7 +16,10 @@ namespace Store.Controllers
     {
         public ActionResult Index()
         {
-            return View(UserManager.Users);
+            if (User.IsInRole("admin"))
+                return View(UserManager.Users);
+
+            return View("Error", new List<string>());
         }
 
         public ActionResult Create()
